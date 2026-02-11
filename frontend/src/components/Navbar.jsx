@@ -1,74 +1,89 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const Navbar = ({ onLogout }) => {
+function Navbar({ onLogout }) {
   const location = useLocation();
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+      setDarkMode(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+
+    if (newMode) {
+      document.body.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
+  const activeStyle = (path) => ({
+    color: location.pathname === path ? "#fff" : "#dbeafe",
+    textDecoration: "none",
+  });
 
   return (
-    <nav style={styles.nav}>
-      <h2 style={styles.logo}>Event Booking</h2>
+    <nav
+      style={{
+        background: "linear-gradient(90deg, #1e3a8a, #2563eb)",
+        padding: "16px 40px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        color: "white",
+      }}
+    >
+      <h2>Event Booking</h2>
 
-      <div style={styles.links}>
-        <Link
-          to="/events"
-          style={{
-            ...styles.link,
-            ...(location.pathname === "/events" ? styles.active : {}),
-          }}
-        >
+      <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+        <Link to="/events" style={activeStyle("/events")}>
           Events
         </Link>
 
-        <Link
-          to="/my-bookings"
-          style={{
-            ...styles.link,
-            ...(location.pathname === "/my-bookings" ? styles.active : {}),
-          }}
-        >
+        <Link to="/my-bookings" style={activeStyle("/my-bookings")}>
           My Bookings
         </Link>
 
-        <button onClick={onLogout} style={styles.logout}>
+        <button
+          onClick={toggleTheme}
+          style={{
+            background: "transparent",
+            border: "1px solid white",
+            color: "white",
+            padding: "6px 10px",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
+        >
+          {darkMode ? "☀️" : "🌙"}
+        </button>
+
+        <button
+          onClick={onLogout}
+          style={{
+            background: "#dc2626",
+            border: "none",
+            padding: "8px 14px",
+            borderRadius: "6px",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
           Logout
         </button>
       </div>
     </nav>
   );
-};
-
-const styles = {
-  nav: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "12px 20px",
-    background: "#2563eb",
-    color: "white",
-  },
-  logo: {
-    margin: 0,
-  },
-  links: {
-    display: "flex",
-    gap: "16px",
-    alignItems: "center",
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    fontWeight: "500",
-  },
-  active: {
-    textDecoration: "underline",
-  },
-  logout: {
-    background: "#dc2626",
-    border: "none",
-    padding: "6px 12px",
-    color: "white",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-};
+}
 
 export default Navbar;

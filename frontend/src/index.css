@@ -1,6 +1,54 @@
-/* stylelint-disable at-rule-no-unknown */
-@tailwind base;
-/* stylelint-disable-next-line at-rule-no-unknown */
-@tailwind components;
-@tailwind utilities;
-/* stylelint-enable at-rule-no-unknown */
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 20px auto;
+  }
+}
+
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 20px auto;
+  }
+}
+
+body.dark {
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+body.dark .card {
+  background: #1e293b !important;
+  color: #f1f5f9;
+}
+
+body.dark input {
+  background: #334155;
+  color: white;
+  border: 1px solid #475569;
+}
+
+body.dark button {
+  opacity: 0.95;
+}

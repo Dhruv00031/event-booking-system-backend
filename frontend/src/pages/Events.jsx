@@ -1,109 +1,217 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import { fetchEvents, bookEvent } from "../api/events";
+import { toast } from "react-toastify";
 
-export default function Events() {
+function Events() {
   const [events, setEvents] = useState([]);
+  const [search, setSearch] = useState("");
   const [seats, setSeats] = useState({});
-  const [title, setTitle] = useState("");
-  const [error, setError] = useState("");
-
-  const loadEvents = async () => {
-    try {
-      const res = await api.get("events/");
-      setEvents(res.data || []);
-    } catch {
-      setError("Failed to load events");
-    }
-  };
+  const [loading, setLoading] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
-    (async () => {
+    const loadEvents = async () => {
       try {
-        const res = await api.get("events/");
-        if (isMounted) setEvents(res.data || []);
+        const data = await fetchEvents();
+        setEvents(Array.isArray(data) ? data : []);
       } catch {
-        if (isMounted) setError("Failed to load events");
+        toast.error("Failed to load events");
+      } finally {
+        setLoading(false);
       }
-    })();
-    return () => {
-      isMounted = false;
     };
+
+    loadEvents();
   }, []);
 
-  const handleCreate = async (e) => {
-    e.preventDefault();
+  const handleBook = async (eventId) => {
+    const seatsBooked = parseInt(seats[eventId]);
+
+    if (!seatsBooked || seatsBooked <= 0) {
+      toast.warning("Enter valid seat number");
+      return;
+    }
+
     try {
-      await api.post("events/", { title });
-      setTitle("");
-      loadEvents();
+      await bookEvent(eventId, seatsBooked);
+      toast.success("Booking successful 🎉");
+      setSelectedEvent(null);
     } catch {
-      alert("Failed to create event");
+      toast.error("Booking failed");
     }
   };
 
-  const handleBook = async (eventId) => {
-    try {
-      await api.post(`events/${eventId}/book/`, {
-        seats_booked: Number(seats[eventId] || 1),
-      });
-      alert("Booking successful!");
-      loadEvents();
-    } catch (err) {
-      alert(err.response?.data?.error || "Booking failed");
-    }
-  };
+  const filteredEvents = events.filter((event) =>
+    event.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Events</h2>
+    <div className="container">
+      <h1 style={{ marginBottom: "20px" }}>Browse Events</h1>
 
-      <form onSubmit={handleCreate} style={{ marginBottom: 16 }}>
-        <input
-          placeholder="Event title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <button type="submit">Create Event</button>
-      </form>
+      {/* SEARCH */}
+      <input
+        type="text"
+        placeholder="Search events..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "12px",
+          marginBottom: "30px",
+          borderRadius: "8px",
+          border: "1px solid #ddd",
+          fontSize: "15px",
+        }}
+      />
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && <p>Loading events...</p>}
 
-      {events.length === 0 && <p>No events available</p>}
+      {filteredEvents.map((event) => (
+        <div
+          key={event.id}
+          className="card"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "translateY(-4px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
+        >
+          <h2 style={{ marginBottom: "8px" }}>{event.title}</h2>
 
-      <div>
-        {events.map((event) => (
-          <div
-            key={event.id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            <h3>{event.title}</h3>
-            {event.description && <p>{event.description}</p>}
-            <p>
-              📍 {event.location} | 🪑 Seats left: {event.available_seats}
-            </p>
+          <p style={{ color: "#6b7280", marginBottom: "8px" }}>
+            📍 {event.location}
+          </p>
 
+          {/* SEATS LEFT TEXT */}
+          <p style={{ fontWeight: "500", marginBottom: "10px" }}>
+            🪑 {event.available_seats} / {event.total_seats} seats left
+          </p>
+
+          {/* PROGRESS BAR */}
+          <div style={{ marginBottom: "15px" }}>
+            <div
+              style={{
+                height: "8px",
+                background: "#e5e7eb",
+                borderRadius: "10px",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  width: `${
+                    (event.available_seats / event.total_seats) * 100
+                  }%`,
+                  height: "100%",
+                  background:
+                    event.available_seats > event.total_seats * 0.5
+                      ? "#16a34a"
+                      : event.available_seats > event.total_seats * 0.2
+                      ? "#f59e0b"
+                      : "#dc2626",
+                  transition: "width 0.6s ease",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* BOOKING */}
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
             <input
               type="number"
-              min="1"
               placeholder="Seats"
               value={seats[event.id] || ""}
               onChange={(e) =>
-                setSeats({
-                  ...seats,
-                  [event.id]: e.target.value,
-                })
+                setSeats({ ...seats, [event.id]: e.target.value })
               }
+              style={{
+                padding: "8px",
+                borderRadius: "6px",
+                border: "1px solid #ccc",
+              }}
             />
-            <button onClick={() => handleBook(event.id)}>Book Now</button>
+
+            <button
+              onClick={() => setSelectedEvent(event)}
+              style={{
+                padding: "8px 16px",
+                background: "#2563eb",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
+            >
+              Book
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
+
+      {filteredEvents.length === 0 && !loading && (
+        <p style={{ textAlign: "center", color: "#777" }}>
+          No events found.
+        </p>
+      )}
+
+      {/* MODAL */}
+      {selectedEvent && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "white",
+              padding: "30px",
+              borderRadius: "12px",
+              width: "350px",
+            }}
+          >
+            <h3>Confirm Booking</h3>
+            <p>{selectedEvent.title}</p>
+
+            <div style={{ marginTop: "15px" }}>
+              <button
+                onClick={() => handleBook(selectedEvent.id)}
+                style={{
+                  marginRight: "10px",
+                  background: "#2563eb",
+                  color: "white",
+                  border: "none",
+                  padding: "8px 14px",
+                  borderRadius: "6px",
+                }}
+              >
+                Confirm
+              </button>
+
+              <button
+                onClick={() => setSelectedEvent(null)}
+                style={{
+                  background: "#dc2626",
+                  color: "white",
+                  border: "none",
+                  padding: "8px 14px",
+                  borderRadius: "6px",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+export default Events;

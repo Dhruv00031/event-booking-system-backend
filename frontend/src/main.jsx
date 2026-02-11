@@ -4,6 +4,8 @@ import App from "./App";
 import { setAuthToken } from "./api/axios";
 import "./index.css";
 import "./styles.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const token = localStorage.getItem("token");
 if (token) {
@@ -11,7 +13,8 @@ if (token) {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <>
     <App />
-  </React.StrictMode>
+    <ToastContainer position="top-right" autoClose={2500} />
+  </>
 );
