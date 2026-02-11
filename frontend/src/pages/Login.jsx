@@ -1,77 +1,51 @@
 import { useState } from "react";
-import { loginUser } from "../api/auth";
-import { setAuthToken } from "../api/axios";
-import Events from "./Events";
+import api from "../api/axios";
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-
-  const [loggedIn, setLoggedIn] = useState(false);
+function Login({ onLogin }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const data = await loginUser(formData);
+      const res = await api.post("users/login/", {
+        username,
+        password,
+      });
 
-      // save token
-      localStorage.setItem("token", data.token);
-      setAuthToken(data.token);
-
-      setLoggedIn(true);
+      onLogin(res.data.token);
     } catch {
-      setError("Invalid username or password");
+      setError("Invalid credentials");
     }
   };
 
-  // After login → show Events page
-  if (loggedIn) {
-    return <Events />;
-  }
-
   return (
-    <div style={{ maxWidth: "400px", margin: "100px auto" }}>
+    <div style={{ padding: "40px" }}>
       <h2>Login</h2>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          name="username"
           placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <br /><br />
-
         <input
           type="password"
-          name="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <br /><br />
-
         <button type="submit">Login</button>
       </form>
     </div>
   );
-};
+}
 
 export default Login;

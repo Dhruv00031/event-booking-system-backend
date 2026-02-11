@@ -1,79 +1,27 @@
 from django.db import transaction
-
+from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import (
-    ListAPIView,
-    RetrieveAPIView,
-    CreateAPIView,
-    UpdateAPIView,
-    DestroyAPIView,
-)
 
 from .models import Event, Booking
 from .serializers import EventSerializer, BookingSerializer
 from .permissions import IsAdminOrReadOnly
 
 
-# ============================
-# EVENT VIEWS
-# ============================
-
-class EventListView(ListAPIView):
-    """
-    List all events (authenticated users)
-    """
+class EventListCreateView(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
 
 
-class EventDetailView(RetrieveAPIView):
-    """
-    Retrieve a single event by ID
-    """
+class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated]
 
-
-class EventCreateView(CreateAPIView):
-    """
-    Create a new event (admin only)
-    """
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-    permission_classes = [IsAdminOrReadOnly]
-
-
-class EventUpdateView(UpdateAPIView):
-    """
-    Update an event (admin only)
-    """
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-    permission_classes = [IsAdminOrReadOnly]
-
-
-class EventDeleteView(DestroyAPIView):
-    """
-    Delete an event (admin only)
-    """
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-    permission_classes = [IsAdminOrReadOnly]
-
-
-# ============================
-# BOOKING VIEWS
-# ============================
 
 class BookEventView(APIView):
-    """
-    Book seats for an event (authenticated users)
-    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, event_id):
@@ -81,13 +29,7 @@ class BookEventView(APIView):
             seats_requested = int(request.data.get("seats_booked"))
         except (TypeError, ValueError):
             return Response(
-                {"error": "seats_booked must be a valid number"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        if seats_requested <= 0:
-            return Response(
-                {"error": "seats_booked must be greater than zero"},
+                {"error": "Invalid seat number"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -121,9 +63,6 @@ class BookEventView(APIView):
 
 
 class MyBookingsView(APIView):
-    """
-    List bookings for the logged-in user
-    """
     permission_classes = [IsAuthenticated]
 
     def get(self, request):

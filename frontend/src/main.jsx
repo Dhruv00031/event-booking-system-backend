@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { setAuthToken } from "./api/axios";
+import "./index.css";
+import "./styles.css";
 
 const token = localStorage.getItem("token");
 if (token) {
