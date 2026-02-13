@@ -1,57 +1,119 @@
-🎯 Event Booking System (Backend)
+# 🎟 Event Booking System (Full-Stack)
 
-A backend REST API for managing events and handling seat bookings with proper authentication, permissions, and transactional safety.
-Built to reflect real-world backend engineering practices using Django and Django REST Framework.
+A full-stack Event Booking platform built using Django REST Framework and React.
 
-🚀 Features
-🔐 Authentication
+This project simulates a real-world ticket booking system where users can browse events, book seats, and track their bookings securely.
 
-User registration
+---
 
-User login
+## 🚀 Live Features
 
-Token-based authentication
+### 🔐 Authentication
+- User registration
+- Secure login with token-based authentication
+- Protected routes
 
-Protected APIs (authenticated users only)
+### 🎫 Event Management
+- View available events
+- Seat availability tracking
+- Real-time seat updates
+- Admin-only event creation
 
-👨‍💼 Admin Capabilities
+### 📦 Booking System
+- Book multiple seats
+- Transaction-safe booking (atomic operations)
+- Prevents overbooking
+- View personal bookings
+- Timestamped bookings
 
-Create events
+### 🌙 UI Features
+- Responsive design
+- Clean card-based layout
+- Global dark mode toggle
+- Booking timeline view
+- Dynamic seat progress bars
 
-Update events
+---
 
-Delete events
+## 🛠 Tech Stack
 
-Manage total and available seats
+### Backend
+- Python
+- Django
+- Django REST Framework
+- SQLite (Dev)
+- Token Authentication
+- Custom Permissions
+- Atomic Transactions
 
-👤 User Capabilities
+### Frontend
+- CSS (custom theme system)
+- React
+- Fetch API
+- Dark Mode via CSS variables
 
-View all events
+---
 
-View event details
+## 🔐 API Endpoints
 
-Book seats for events
+### Auth
+POST `/api/register/`
+POST `/api/login/`
 
-View personal bookings
+### Events
+GET `/api/events/`
+POST `/api/events/` (Admin only)
+GET `/api/events/<id>/`
 
-🧠 Backend Logic
+### Bookings
+POST `/api/events/<id>/book/`
+GET `/api/my-bookings/`
 
-Transaction-safe booking using database locking
+---
 
-Prevents overbooking
+## 🧠 What I Learned
 
-Automatic seat availability updates
+- Designing REST APIs
+- Token-based authentication
+- Role-based access control
+- Preventing race conditions using transactions
+- Connecting React frontend with Django backend
+- Managing global UI themes (Dark Mode)
+- Building production-like booking logic
 
-Role-based access control (Admin vs User)
+---
 
-🛠 Tech Stack
+## 💡 Why This Project?
 
-Language: Python
+Most tutorials stop at CRUD.
+This project implements:
 
-Framework: Django, Django REST Framework
+✔ Real authentication  
+✔ Permissions  
+✔ Data validation  
+✔ Booking constraints  
+✔ UI/UX polish  
+✔ Full frontend-backend integration  
 
-Database: SQLite (development)
+It reflects how real backend systems work.
 
-Authentication: Token-based (DRF AuthToken)
+---
 
-Tools: Git, GitHub, Django Admin
+## 📌 Future Improvements
+
+- Payment gateway integration
+- Email confirmations
+- Admin analytics dashboard
+- Deployment on cloud
+- Dockerization
+
+---
+
+## 👨‍💻 Author
+
+Dhruv Bharadwaj  
+B.Tech CSE  
+Aspiring Backend Developer
+
+---
+
