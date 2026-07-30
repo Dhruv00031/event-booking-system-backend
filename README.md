@@ -1,70 +1,98 @@
-# 🎓 Student Management System
+# 🎟️ Event Booking System
 
-A full-stack **Student Management System** built using the **MERN Stack** with a beginner-friendly codebase. The application allows administrators to manage students through a clean web interface while demonstrating authentication, REST APIs, CRUD operations, and responsive frontend development using plain HTML, CSS, and JavaScript.
+A full-stack **Event Booking System** built using the **MERN Stack**. The application allows users to browse events, book seats securely, and manage their bookings through a clean and responsive interface.
+
+This project was developed with a beginner-friendly architecture using **Express.js**, **MongoDB**, and **Plain HTML, CSS & JavaScript** without any frontend frameworks.
 
 ---
 
-## 📌 Features
+# ✨ Features
 
-### 🔐 Authentication
+## 👤 Authentication
+
 - User Registration
 - User Login
 - JWT Authentication
 - Protected Routes
 - Logout
 
-### 👨‍🎓 Student Management
-- Add Student
-- View All Students
-- Search Students
-- Update Student Details
-- Delete Student
-- Student Detail View
+---
 
-### 🎨 Frontend
-- Plain HTML, CSS & JavaScript
-- Responsive Design
-- Clean Navigation
-- Toast Notifications
-- Dynamic Data Rendering
+## 🎫 Event Management
 
-### ⚙ Backend
-- Express.js REST APIs
-- MongoDB Database
-- Mongoose Models
-- JWT Authentication
-- Password Hashing using bcrypt
-- Modular Project Structure
+- View Available Events
+- Search Events
+- Event Details
+- Seat Availability
+- Real-time Seat Updates
 
 ---
 
-# 🛠 Tech Stack
+## 📅 Booking System
+
+- Book Event Seats
+- Prevent Overbooking
+- View My Bookings
+- Booking History
+
+---
+
+## 🎨 Frontend
+
+- Plain HTML5
+- CSS3
+- Vanilla JavaScript
+- Responsive Design
+- Toast Notifications
+- Dynamic API Integration
+
+---
+
+## ⚙ Backend
+
+- RESTful APIs
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- Password Hashing (bcrypt)
+- MVC Folder Structure
+
+---
+
+# 🛠️ Tech Stack
 
 ## Frontend
+
 - HTML5
 - CSS3
 - JavaScript (ES6)
 
 ## Backend
+
 - Node.js
 - Express.js
 
 ## Database
+
 - MongoDB
 - Mongoose
 
 ## Authentication
-- JSON Web Token (JWT)
+
+- JWT
 - bcrypt
 
 ---
 
-# 📂 Project Structure
+# 📁 Project Structure
 
 ```
-Student_Management_System/
+event_booking_system/
+
 │
 ├── backend/
+│
 │   ├── config/
 │   ├── controllers/
 │   ├── middleware/
@@ -74,45 +102,48 @@ Student_Management_System/
 │   └── package.json
 │
 ├── frontend/
+│
 │   ├── css/
 │   ├── js/
 │   ├── index.html
 │   ├── login.html
-│   ├── dashboard.html
-│   ├── students.html
-│   └── profile.html
+│   ├── events.html
+│   ├── bookings.html
+│   └── README.md
 │
-├── README.md
-└── .gitignore
+├── .gitignore
+└── README.md
 ```
 
 ---
 
 # 🚀 Getting Started
 
-## 1. Clone Repository
+## Clone Repository
 
 ```bash
-git clone https://github.com/Dhruv00031/Student_Management_Backend_App.git
+git clone https://github.com/Dhruv00031/event-booking-system-backend.git
 ```
 
-## 2. Open Project
+## Move into Project
 
 ```bash
-cd Student_Management_Backend_App
+cd event_booking_system
 ```
 
 ---
 
-# 📦 Backend Setup
+# Backend Setup
 
 ```bash
 cd backend
+
 npm install
+
 npm run dev
 ```
 
-Backend runs on:
+Server starts on
 
 ```
 http://localhost:5000
@@ -120,82 +151,87 @@ http://localhost:5000
 
 ---
 
-# 💻 Frontend Setup
+# Frontend Setup
 
-Open the **frontend** folder using **Live Server** in VS Code.
-
-Or simply open:
+Open
 
 ```
-index.html
+frontend/index.html
 ```
+
+using **Live Server** in VS Code.
 
 ---
 
-# 🔑 Environment Variables
+# Environment Variables
 
-Create a `.env` file inside the **backend** folder.
+Create a `.env` file inside the backend folder.
 
 ```
 PORT=5000
 
-MONGO_URI=Your MongoDB Connection String
+MONGO_URI=your_mongodb_connection_string
 
-JWT_SECRET=YourSecretKey
+JWT_SECRET=your_secret_key
 ```
 
 ---
 
-# 📸 Application Preview
+# 📌 API Endpoints
 
-### Login
+## Authentication
 
-- User Registration
-- Secure Login
+```
+POST /api/auth/register
 
-### Dashboard
+POST /api/auth/login
+```
 
-- Overview
-- Quick Navigation
+## Events
 
-### Student Management
+```
+GET /api/events
 
-- View Students
-- Add Student
-- Edit Student
-- Delete Student
+GET /api/events/:id
+```
 
-### Profile
+## Bookings
 
-- User Information
-- Logout
+```
+POST /api/events/:eventId/book
+
+GET /api/my-bookings
+```
 
 ---
 
-# 📚 What I Learned
+# 📚 Key Concepts Used
 
 - REST API Development
 - JWT Authentication
-- MongoDB Data Modeling
-- Express Routing
-- CRUD Operations
+- Password Hashing
+- MongoDB CRUD Operations
+- MVC Architecture
+- Atomic Seat Booking Logic
 - Client-Server Communication
-- JavaScript DOM Manipulation
-- Responsive UI Design
-- Git & GitHub Workflow
+- Fetch API
+- DOM Manipulation
+- Responsive Web Design
 
 ---
 
 # 🚀 Future Improvements
 
-- Dashboard Analytics
-- Student Profile Pictures
-- Pagination
-- Advanced Search & Filters
-- Export Student Data (CSV/PDF)
+- Dashboard
+- Event Images
+- Event Categories
+- Profile Page
+- Booking Confirmation Page
+- Admin Panel
+- Analytics Dashboard
 - Email Notifications
+- QR Code Tickets
 - Dark Mode
-- Admin Roles & Permissions
 
 ---
 
@@ -205,7 +241,8 @@ JWT_SECRET=YourSecretKey
 
 B.Tech Computer Science Engineering
 
-GitHub:
+GitHub
+
 https://github.com/Dhruv00031
 
 ---
