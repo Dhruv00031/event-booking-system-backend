@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Booking — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="auth-wrap">
+    <div class="auth-ticket">
+      <div class="auth-ticket-top">
+        <h1>Event <span style="color:#131a2b">Booking</span></h1>
+        <p id="auth-subtitle">Login to browse and reserve your seat</p>
+      </div>
+      <div class="auth-perforation"></div>
+
+      <div class="auth-body">
+        <div id="form-error" class="form-error"></div>
+
+        <form id="auth-form">
+          <div class="field">
+            <label for="username">Username</label>
+            <input type="text" id="username" required autocomplete="username" />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" required autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn-primary" id="submit-btn">Login</button>
+        </form>
+
+        <div class="auth-toggle">
+          <span id="toggle-text">New here?</span>
+          <button type="button" id="toggle-btn">Create an account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/toast.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+/* ============================================================
+   Event Booking System — shared stylesheet
+   Design concept: event ticket stub (dashed perforation + punch holes)
+   ============================================================ */
+
+:root {
+  --ink: #131a2b;
+  --ink-soft: #1d2740;
+  --ink-line: #2a3552;
+  --paper: #f7f4ec;
+  --paper-dim: #eee9da;
+  --gold: #f2a93b;
+  --gold-dark: #c98620;
+  --text: #131a2b;
+  --muted: #6b7280;
+  --danger: #d1453b;
+  --success: #2f9e63;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "Inter", sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: "Space Grotesk", sans-serif;
+  margin: 0;
+}
+
+a { color: inherit; }
+
+/* ---------- Navbar ---------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: var(--ink-soft);
+  border-bottom: 1px solid var(--ink-line);
+}
+
+.navbar .brand {
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.navbar .brand span { color: var(--gold); }
+
+.navbar nav {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.navbar nav a {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 500;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.navbar nav a.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid #475069;
+  color: #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ---------- Layout ---------- */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.page-header {
+  margin-bottom: 28px;
+}
+
+.page-header p {
+  color: #94a3b8;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+/* ---------- Search / Inputs ---------- */
+.search-input, .field input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--ink-line);
+  background: var(--ink-soft);
+  color: var(--paper);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.search-input::placeholder, .field input::placeholder { color: #64748b; }
+.search-input:focus, .field input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.search-input { margin-bottom: 28px; }
+
+/* ---------- Event grid ---------- */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 22px;
+}
+
+/* Ticket-stub card: info on the left, "seats" stub on the right,
+   separated by a dashed perforation with punch-hole circles */
+.ticket {
+  display: flex;
+  background: var(--paper);
+  border-radius: var(--radius);
+  color: var(--text);
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.ticket-info {
+  flex: 1;
+  padding: 20px;
+  min-width: 0;
+}
+
+.ticket-info h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.ticket-meta {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.seats-text {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 12px 0 6px;
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--paper-dim);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+
+.ticket-stub {
+  width: 130px;
+  flex-shrink: 0;
+  background: var(--gold);
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  border-left: 2px dashed rgba(19,26,43,0.35);
+}
+
+/* Punch-hole circles on the perforation line, colored to match the
+   page background so they look like actual cut-out holes */
+.ticket-stub::before,
+.ticket-stub::after {
+  content: "";
+  position: absolute;
+  left: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.ticket-stub::before { top: -9px; }
+.ticket-stub::after { bottom: -9px; }
+
+.ticket-stub input {
+  width: 100%;
+  padding: 8px 6px;
+  text-align: center;
+  border-radius: 6px;
+  border: 1px solid rgba(19,26,43,0.3);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.btn-book {
+  width: 100%;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 9px 6px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-book:hover { background: var(--ink-soft); }
+.btn-book:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Booking (my-bookings) card ---------- */
+.booking-ticket {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--paper);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.booking-ticket h3 { font-size: 16px; margin-bottom: 4px; }
+.booking-ticket .ticket-meta { margin-bottom: 0; }
+
+.seats-badge {
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ---------- Empty / loading states ---------- */
+.empty-state, .loading-state {
+  text-align: center;
+  color: #94a3b8;
+  padding: 60px 20px;
+  font-size: 14px;
+}
+
+.skeleton {
+  background: var(--paper-dim);
+  border-radius: var(--radius);
+  height: 150px;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ---------- Auth pages (login / register) ---------- */
+.auth-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-ticket {
+  width: 100%;
+  max-width: 380px;
+  background: var(--paper);
+  color: var(--text);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+
+.auth-ticket-top {
+  background: var(--gold);
+  padding: 26px 28px 20px;
+  position: relative;
+}
+
+.auth-ticket-top h1 { font-size: 22px; }
+.auth-ticket-top p { margin: 6px 0 0; font-size: 13px; color: rgba(19,26,43,0.75); }
+
+.auth-perforation {
+  border-top: 2px dashed rgba(19,26,43,0.35);
+  position: relative;
+  margin: 0 24px;
+}
+.auth-perforation::before, .auth-perforation::after {
+  content: "";
+  position: absolute;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.auth-perforation::before { left: -33px; }
+.auth-perforation::after { right: -33px; }
+
+.auth-body { padding: 26px 28px 28px; }
+
+.field { margin-bottom: 16px; }
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+
+.btn-primary {
+  width: 100%;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.btn-primary:hover { background: var(--ink-soft); }
+
+.auth-toggle {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 18px;
+}
+.auth-toggle button {
+  background: none;
+  border: none;
+  color: var(--gold-dark);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 0;
+}
+
+.form-error {
+  background: #fde8e6;
+  color: var(--danger);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 14px;
+  display: none;
+}
+.form-error.show { display: block; }
+
+/* ---------- Toast (custom, no library) ---------- */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
+}
+
+.toast {
+  background: var(--ink-soft);
+  border: 1px solid var(--ink-line);
+  color: var(--paper);
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  animation: slideIn 0.25s ease;
+}
+.toast.success { border-left: 3px solid var(--success); }
+.toast.error { border-left: 3px solid var(--danger); }
+.toast.warning { border-left: 3px solid var(--gold); }
+
+@keyframes slideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .navbar { padding: 14px 18px; flex-wrap: wrap; gap: 10px; }
+  .page { padding: 24px 16px 60px; }
+  .ticket { flex-direction: column; }
+  .ticket-stub {
+    width: 100%;
+    flex-direction: row;
+    border-left: none;
+    border-top: 2px dashed rgba(19,26,43,0.35);
+  }
+  .ticket-stub::before, .ticket-stub::after { top: -9px; left: auto; }
+  .ticket-stub::before { left: -9px; }
+  .ticket-stub::after { right: -9px; left: auto; }
+}

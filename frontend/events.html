@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Booking — Events</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="brand">Event<span>Booking</span></div>
+    <nav>
+      <a href="events.html">Events</a>
+      <a href="bookings.html">My Bookings</a>
+      <button class="btn-logout" id="logout-btn">Logout</button>
+    </nav>
+  </div>
+
+  <div class="page">
+    <div class="page-header">
+      <h2>Browse Events</h2>
+      <p>Find an event, pick your seats, and book instantly.</p>
+    </div>
+
+    <input type="text" class="search-input" id="search-input" placeholder="Search events by title..." />
+
+    <div id="event-grid" class="event-grid"></div>
+    <p id="empty-state" class="empty-state" style="display:none;">No events found.</p>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/toast.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/events.js"></script>
+</body>
+</html>

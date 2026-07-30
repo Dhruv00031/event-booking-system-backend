@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Event Booking</title>
+  <script src="js/api.js"></script>
+  <script>
+    // Root page khulte hi decide karo kaha bhejna hai:
+    // token hai to events page, warna login page
+    window.location.href = getToken() ? "events.html" : "login.html";
+  </script>
+</head>
+<body></body>
 </html>
