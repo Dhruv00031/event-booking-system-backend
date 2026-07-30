@@ -1,0 +1,13 @@
+# Node
+node_modules/
+
+# Environment
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Logs
+npm-debug.log*
